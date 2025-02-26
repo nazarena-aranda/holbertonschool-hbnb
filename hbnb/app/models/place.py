@@ -1,4 +1,4 @@
-from base_models import BaseModel
+from hbnb.app.models.base_model import BaseModel
 
 class Place(BaseModel):
     def __init__(self, title, description, price, latitude, longitude, owner):
@@ -9,8 +9,8 @@ class Place(BaseModel):
         self.latitude = latitude
         self.longitude = longitude
         self.owner = owner
-        self.reviews = []  # List to store related reviews
-        self.amenities = []  # List to store related amenities
+        self.reviews = []
+        self.amenities = []
 
     def add_review(self, review):
         """Add a review to the place."""
