@@ -1,11 +1,13 @@
 from app.persistence.repository import InMemoryRepository
 from app.models.user import User
 from app.models.place import Place
+from app.models.amenity import Amenity
 
 class HBnBFacade:
     def __init__(self):
         self.user_repo = InMemoryRepository()
         self.place_repo = InMemoryRepository()
+        self.amenities_repo = InMemoryRepository()
 
     def create_user(self, user_data):
         user = User(**user_data)
@@ -25,13 +27,23 @@ class HBnBFacade:
         owner = self.get_user(place_data['owner_id'])
         if not owner:
             raise ValueError("Owner not found")
+
+        amenities = []
+        for amenity_id in place_data['amenities']:
+            amenity = self.get_amenity(amenity_id)
+            if not amenity:
+                raise ValueError(f"Amenity {amnity_id} not found")
+        
+            amenities.append(amenity)
+            
         place = Place(
             title=place_data['title'],
             description=place_data.get('description', ''),
             price=place_data['price'],
             latitude=place_data['latitude'],
             longitude=place_data['longitude'],
-            owner=owner)
+            owner=owner,
+            amenities=amenities)
         self.place_repo.add(place)
         return place
 
@@ -48,3 +60,30 @@ class HBnBFacade:
         for key, value in place_data.items():
             setattr(place, key, value)
         return place
+        
+    def create_amenity(self, amenity_data):
+        # Create amenity
+        amenity = Amenity(amenity_data["name"])
+        self.amenities_repo.add(amenity)
+
+        # return new amenity
+        return amenity
+
+    def get_amenity(self, amenity_id):
+        amenity = self.amenities_repo.get(amenity_id)
+        if not amenity:
+            raise ValueError("Amenity not found")
+        return amenity
+
+    def get_all_amenities(self):
+        return self.amenities_repo.get_all()
+
+    def update_amenity(self, amenity_id, amenity_data):
+        amenity = self.get_amenity(amenity_id)
+        if not amenity:
+            raise ValueError("Amenity not found")
+
+        if "name" in amenity_data:
+            amenity.name = amenity_data["name"]
+        else:
+            raise ValueError("Invalid amenity data")

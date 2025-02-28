@@ -44,7 +44,9 @@ class PlaceList(Resource):
                 'price': new_place.price,
                 'latitude': new_place.latitude,
                 'longitude': new_place.longitude,
-                'owner_id': new_place.owner.id
+                'owner_id': new_place.owner.id,
+                'amenities_id': [a.id for a in new_place.amenities],
+                'reviews_id': [r.id for r in new_place.reviews]
             }, 201
         except ValueError as e:
             return {'error': str(e)}, 400
