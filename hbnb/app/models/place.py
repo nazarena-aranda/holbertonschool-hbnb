@@ -13,12 +13,32 @@ class Place(BaseModel):
         self.amenities = []
 
     @property
+    def title(self):
+        return self._title
+
+    @title.setter
+    def title(self, name):
+        if name == "":
+            raise ValueError("Title must not be empty")
+        self._title = name
+
+    @property
+    def description(self):
+        return self._description
+
+    @description.setter
+    def description(self, description ):
+        if description == "":
+            raise ValueError("Description must not be empty")
+        self._description = description
+
+    @property
     def price(self):
         return self._price
 
     @price.setter
     def price(self, value):
-        if value < 0:
+        if value <= 0:
             raise ValueError("Price must be a non negative float")
         self._price = value
 
