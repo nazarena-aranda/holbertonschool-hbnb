@@ -3,19 +3,6 @@ from app.services import facade
 
 api = Namespace('places', description='Place operations')
 
-# Define the models for related entities
-amenity_model = api.model('PlaceAmenity', {
-    'id': fields.String(description='Amenity ID'),
-    'name': fields.String(description='Name of the amenity')
-})
-
-user_model = api.model('PlaceUser', {
-    'id': fields.String(description='User ID'),
-    'first_name': fields.String(description='First name of the owner'),
-    'last_name': fields.String(description='Last name of the owner'),
-    'email': fields.String(description='Email of the owner')
-})
-
 # Define the place model for input validation and documentation
 place_model = api.model('Place', {
     'title': fields.String(required=True, description='Title of the place'),
@@ -44,9 +31,27 @@ class PlaceList(Resource):
                 'price': new_place.price,
                 'latitude': new_place.latitude,
                 'longitude': new_place.longitude,
-                'owner_id': new_place.owner.id,
-                'amenities_id': [a.id for a in new_place.amenities],
-                'reviews_id': [r.id for r in new_place.reviews]
+                'owner': {
+                    'id': new_place.owner.id,
+                    'first_name': new_place.owner.first_name,
+                    'last_name': new_place.owner.last_name,
+                    'email': new_place.owner.email,
+                },
+                'amenities': [
+                    {
+                        'id': amenity.id,
+                        'name': amenity.name,
+                    } 
+                    for amenity in new_place.amenities
+                ],
+                'reviews': [
+                    {
+                        'id': review.id,
+                        'text': review.text,
+                        'rating': review.rating,
+                    }
+                    for review in new_place.reviews
+                ],
             }, 201
         except ValueError as e:
             return {'error': str(e)}, 400
@@ -79,7 +84,13 @@ class PlaceResource(Resource):
                 'last_name': place.owner.last_name,
                 'email': place.owner.email
             },
-            'amenities': [{'id': amenity.id, 'name': amenity.name} for amenity in place.amenities]
+            'amenities': [
+                {
+                    'id': amenity.id, 
+                    'name': amenity.name
+                } 
+                for amenity in place.amenities
+            ]
         }, 200
 
     @api.expect(place_model)
