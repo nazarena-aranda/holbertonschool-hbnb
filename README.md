@@ -1,48 +1,100 @@
-#Hbnb
+# 📌 HBnB - Proyecto
 
-The app/ directory contains the core application code.
+## 📖 Descripción del Proyecto
 
-The api/ subdirectory houses the API endpoints, organized by version (v1/).
+Este proyecto es una implementación de **HBnB**, una aplicación web que simula una versión muy simple de **Airbnb**. En esta fase, nos enfocamos en la construcción de una **API RESTful con Flask**, permitiendo a los usuarios:
 
-The models/ subdirectory contains the business logic classes (e.g., user.py, place.py).
+✅ **Crear y actualizar usuarios**  
+✅ **Publicar y actualizar lugares**  
+✅ **Dejar reseñas sobre los lugares**  
+✅ **Asociar amenities a los lugares**  
 
-The services/ subdirectory is where the Facade pattern is implemented, managing the interaction between layers.
 
-The persistence/ subdirectory is where the in-memory repository is implemented. This will later be replaced by a database-backed solution using SQL Alchemy.
 
-run.py is the entry point for running the Flask application.
+---
 
-config.py will be used for configuring environment variables and application settings.
+## 🏗️ Estructura del Proyecto
 
-requirements.txt will list all the Python packages needed for the project.
+📂 **`hbnb/`** → Carpeta raíz del proyecto.   
+📂 **`api/`** → Contiene los endpoints de la API.  
+&nbsp;&nbsp;&nbsp;&nbsp;📂 **`v1/`** → Implementación de los endpoints  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📜 **`users.py`** → Manejo de usuarios: registro y obtención de datos del usuario  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📜 **`places.py`** → Administración de lugares: creació, listado y datos de los lugares.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📜 **`reviews.py`** → Gestión de reseñas: añadir, eliminar y mostrar los datos de las reseñas.   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📜 **`amenities.py`** → Manejo de amenities: agregar y listar amenities.
 
-README.md will contain a brief overview of the project.
+📂 **`models/`** → Contiene la lógica de negocio y las clases de los endpoints.  
+&nbsp;&nbsp;&nbsp;&nbsp;📜 **`base_model.py`** → Clase base con atributos compartidos (`id`, `created_at`, `updated_at`).  
+&nbsp;&nbsp;&nbsp;&nbsp;📜 **`user.py`** → Modelo de usuario.  
+&nbsp;&nbsp;&nbsp;&nbsp;📜 **`place.py`** → Modelo de lugar.  
+&nbsp;&nbsp;&nbsp;&nbsp;📜 **`review.py`** → Modelo de reseñas.  
+&nbsp;&nbsp;&nbsp;&nbsp;📜 **`amenity.py`** → Modelo de amenities.  
 
-BaseModel (Base Class)  it provide common attributes (id, created_at, updated_at) and basic methods (save, update) for all entities.
+📂 **`persistencia/`** → Guarda los datos.  
+&nbsp;&nbsp;&nbsp;&nbsp;📜 **`repositorio.py`** → Define el modelo de repositorio, aquí gestiona y almacena datos, como los usuarios, lugares y reseñas. 
 
-User - Represents a user in the system. a User can own multiple place instances.
-Attributes:
-first_name (String): User's first name (required, max 50 characters).
-last_name (String): User's last name (required, max 50 characters).
-email (String): User's email address (required, unique, valid format).
-is_admin (Boolean): Indicates if the user has admin privileges.
+📂 **`servicios/`** → Implementa el patrón **Facade** para simplificar la lógica del sistema.  
+&nbsp;&nbsp;&nbsp;&nbsp;📜 **`facade.py`** → Centraliza la gestión de usuarios, lugares y reseñas.  
 
-Place - Represents a rental place. a place can have multiple Amenity and Review instances.
-Attributes:
-title (String): Title of the place (required, max 100 characters).
-description (String): Detailed description of the place (optional).
-price (Float): Price per night for the place (must be a positive value).
-latitude (Float): Latitude of the place's location (range: -90.0 to 90.0).
-longitude (Float): Longitude of the place's location (range: -180.0 to 180.0).
-owner (User): User who owns the place.
+📜 **`run.py`** → Archivo principal para ejecutar la aplicación Flask.  
+📜 **`config.py`** → Configuración de variables de entorno y ajustes generales.  
+📜 **`requirements.txt`** → Lista de dependencias del proyecto, si no tenemos esto, nuestro servidor no va a correr.  
 
-Review - Represents a review written by a user about a place. a Review is associated with a Place and a User.
-Attributes:
-text (String): Content of the review (required).
-rating (Integer): Rating for the place (range: 1 to 5).
-place (Place): Place associated with the review.
-user (User): User who wrote the review.
+---
 
-Amenity - Represents an amenity offered by a place. can be associated with multiple Place instances.
-Attributes:
-name (String): Name of the amenity (required, max 50 characters).
+## 🏛️ Modelo de Datos
+
+### 📌 **Clase `User`**
+**Atributos:**
+- `id`: Identificador único (UUID).
+- `first_name`: Nombre del usuario.
+- `last_name`: Apellido del usuario.
+- `email`: Dirección de correo electronico.
+
+### 📌 **Clase `Place`**
+**Atributos:**
+- `id`: Identificador único (UUID).
+- `title`: Nombre del lugar.
+- `description`: Descripción.
+- `price`: Precio.
+- `latitude`: Latitud del lugar.
+- `longitude`: Longitud del lugar.
+- `owner_id`: id del usuario propietario.
+
+**Relaciones:**
+- Un **usuario** puede ser dueño de varios **lugares**).
+- Un **lugar** puede tener varias **reseñas**).
+- Un **lugar** puede tener muchos **amenities**).
+
+### 📌 **Clase `Review`**
+**Atributos:**
+- `id`: Identificador único (UUID).
+- `text`: Contenido de la reseña.
+- `rating`: Puntuación del lugar (1 a 5).
+- `place_id`: Lugar al que pertenece la reseña.
+- `user_id`: Usuario que escribió la reseña.
+
+### 📌 **Clase `Amenity`**
+**Atributos:**
+- `id`: Identificador único (UUID).
+- `name`: Nombre del servicio (ej. "WiFi", "Piscina").
+
+---
+
+## 🚀 Instalación y Ejecución
+
+### 1️⃣ Instalar dependencias
+```bash
+pip install -r requirements.txt
+```
+
+### 2️⃣ Ejecutar la aplicación
+```bash
+python run.py
+```
+
+Esto levantará el servidor de Flask y asi la API permitirá interacción, puede ser tanto desde la url como usando Curl.
+
+## 📌 **Autores**
+- 💻 **Nazarena Aranda** - [GitHub](https://github.com/nazarena-aranda/nazarena-aranda)
+- 💻 **Ignacio Devita** - [GitHub](https://github.com/nyacho04?tab=repositories&q=&type=&language=&sort=)
