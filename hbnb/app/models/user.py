@@ -1,3 +1,4 @@
+import re
 from app.models.base_model import BaseModel
 
 class User(BaseModel):
@@ -8,3 +9,14 @@ class User(BaseModel):
         self.email = email
         self.is_admin = is_admin
 
+    def validate(self):
+        errors = []
+        if not self.first_name:
+            errors.append("First name is required")
+        if not self.last_name:
+            errors.append("Last name is required")
+        if not self.email:
+            errors.append("Email is required")
+        elif not re.match(r"[^@]+@[^@]+\.[^@]+", self.email):
+            errors.append("Invalid email format")
+        return errors

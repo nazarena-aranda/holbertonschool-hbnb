@@ -67,3 +67,14 @@ class Place(BaseModel):
 
     def add_amenity(self, amenity):
         self.amenities.append(amenity)
+
+    def validate(self):
+        if not self.title:
+            errors.append("Title is required")
+        if self.price <= 0:
+            errors.append("Price must be positive")
+        if not (-90 <= self.latitude <= 90):
+            errors.append("Latitude must be between -90 and 90")
+        if not (-180 <= self.longitude <= 180):
+            errors.append("Longitude must be between -180 and 180")
+        return errors
