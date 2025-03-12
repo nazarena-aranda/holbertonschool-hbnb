@@ -19,6 +19,9 @@ class HBnBFacade:
     def get_user_by_id(self, user_id):
         return self.user_repository.get(user_id)
 
+    def get_user_by_email(self, email):
+        return self.user_repository.get_by_attribute("email", email)
+
     def get_all_users(self):
         return self.user_repository.get_all()
 

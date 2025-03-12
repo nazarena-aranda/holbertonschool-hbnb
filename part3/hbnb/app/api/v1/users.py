@@ -36,7 +36,14 @@ class UserList(Resource):
             return {'error': 'Email already registered'}, 409
 
         try:
-            created_user = facade.create_user(user)
+            created_user = facade.create_user({
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "email": user.email,
+                "is_admin": user.is_admin,
+                "password": user.password
+                })
+
             return api.marshal(created_user, user_model), 201
         except Exception as e:
             return {'error': str(e)}, 500
