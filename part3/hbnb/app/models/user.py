@@ -2,11 +2,9 @@ import re
 from app.models.base_model import BaseModel
 from app import bcrypt, db
 
-
-class User(db.Model):
+class User(BaseModel):
     __tablename__ = "users"
 
-    id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -19,7 +17,6 @@ class User(db.Model):
         self.last_name = last_name
         self.email = email
         self.is_admin = is_admin
-
 
         if password:
             self.hash_password(password)
