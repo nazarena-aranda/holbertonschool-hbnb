@@ -1,33 +1,23 @@
 from abc import ABC, abstractmethod
 
-class Repository(ABC):
-    @abstractmethod
+class Repository:
     def add(self, obj):
-        pass
+        raise NotImplementedError
 
-    @abstractmethod
     def get(self, obj_id):
-        pass
+        raise NotImplementedError
 
-    @abstractmethod
     def get_all(self):
-        pass
+        raise NotImplementedError
 
-    @abstractmethod
     def update(self, obj_id, data):
-        pass
+        raise NotImplementedError
 
-    @abstractmethod
     def delete(self, obj_id):
-        pass
+        raise NotImplementedError
 
-    @abstractmethod
     def get_by_attribute(self, attr_name, attr_value):
-        pass
-
-
-from app import db  # Assuming you have set up SQLAlchemy in your Flask app
-from app.models import User, Place, Review, Amenity  # Import your models
+        raise NotImplementedError
 
 class SQLAlchemyRepository(Repository):
     def __init__(self, model):
@@ -57,4 +47,4 @@ class SQLAlchemyRepository(Repository):
             db.session.commit()
 
     def get_by_attribute(self, attr_name, attr_value):
-        return self.model.query.filter(getattr(self.model, attr_name) == attr_value).first()
+        return self.model.query.filter_by(**{attr_name: attr_value}).first()

@@ -5,7 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 from config import config
 from flask_jwt_extended import JWTManager
 
-
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 jwt = JWTManager()
@@ -24,6 +23,7 @@ def create_app(config_class="config.DevelopmentConfig"):
         from app.models.amenity import Amenity
         from app.models.review import Review
 
+        # Note: db.create_all() should be used with caution in production
         db.create_all()
 
     api = Api(app)
@@ -34,17 +34,11 @@ def create_app(config_class="config.DevelopmentConfig"):
     from app.api.v1.amenities import api as amenities_ns
     from app.api.v1.reviews import api as review_ns
 
-    # Register the users namespace
+    # Register the namespaces
     api.add_namespace(auth_ns, path='/api/v1/auth')
-
     api.add_namespace(users_ns, path='/api/v1/users')
-
     api.add_namespace(places_ns, path='/api/v1/places')
-
     api.add_namespace(amenities_ns, path='/api/v1/amenities')
-
     api.add_namespace(review_ns, path='/api/v1/reviews')
-
-    
 
     return app
