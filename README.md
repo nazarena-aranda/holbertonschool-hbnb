@@ -2,7 +2,7 @@
 
 ##  Description of the project
 
-This project is an implementation of HBnB, a web application that emulates a very simple version of Airbnb. In this phase, we focused on building a RESTful API with Flask, allowing users to:
+This project is an implementation of HBnB, a web application that emulates a very simple version of Airbnb. we focused on building a RESTful API with Flask, allowing users to:
 
 **Create and update users**  
 **Publish and update places**  
