@@ -12,35 +12,6 @@ This project is an implementation of HBnB, a web application that emulates a ver
 
 ---
 
-## Project Structure
-
-📂 **`hbnb/`** → Project root folder.   
-📂 **`api/`** → Contains the API endpoints.
-&nbsp;&nbsp;&nbsp;&nbsp;📂 **`v1/`** → Implementation of endpoints
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📜 **`users.py`** → User management: registration and obtaining user data  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📜 **`places.py`** → Place management: creation, listing, and data for places. 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📜 **`reviews.py`** → Review Management: Add, delete, and display review data.   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;📜 **`amenities.py`** → Amenity management: add and list amenities.
-
-📂 **`models/`** → Contains the business logic and endpoint classes.  
-&nbsp;&nbsp;&nbsp;&nbsp;📜 **`base_model.py`** → Base class with shared attributes (`id`, `created_at`, `updated_at`).  
-&nbsp;&nbsp;&nbsp;&nbsp;📜 **`user.py`** → User model
-&nbsp;&nbsp;&nbsp;&nbsp;📜 **`place.py`** → Place model  
-&nbsp;&nbsp;&nbsp;&nbsp;📜 **`review.py`** → Review model  
-&nbsp;&nbsp;&nbsp;&nbsp;📜 **`amenity.py`** → amenities model  
-
-📂 **`persistencia/`** → saves the data
-&nbsp;&nbsp;&nbsp;&nbsp;📜 **`repositorio.py`** → Defines the repository model, where you manage and store data such as users, locations, and reviews.
-
-📂 **`servicios/`** → Implement the **Facade** to simplify the logic   
-&nbsp;&nbsp;&nbsp;&nbsp;📜 **`facade.py`** → Centralizes the management of users, places and reviews.  
-
-📜 **`run.py`** → Main file to run the Flask application.  
-📜 **`config.py`** → Setting environment variables and general settings.
-📜 **`requirements.txt`** → List of project dependencies.
-
----
-
 ## Data Model
 
 ### 📌 **Class `User`**
