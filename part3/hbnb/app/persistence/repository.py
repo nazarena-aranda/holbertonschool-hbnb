@@ -52,7 +52,22 @@ class SQLAlchemyRepository(Repository):
 
 class UserRepository(SQLAlchemyRepository):
     def __init__(self):
+        from app.models.user import User 
         super().__init__(User)
 
     def get_user_by_email(self, email):
         return self.model.query.filter_by(email=email).first()
+
+class PlaceRepository(SQLAlchemyRepository):
+    def __init__(self):
+        super().__init__(Place)
+
+
+class ReviewRepository(SQLAlchemyRepository):
+    def __init__(self):
+        super().__init__(Review)
+
+
+class AmenityRepository(SQLAlchemyRepository):
+    def __init__(self):
+        super().__init__(Amenity)

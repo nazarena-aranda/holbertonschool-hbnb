@@ -1,6 +1,8 @@
 import re
-from app.models.base_model import BaseModel
+from .base_model import BaseModel
 from app import bcrypt, db
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 
 class User(BaseModel):
     __tablename__ = "users"
@@ -10,6 +12,10 @@ class User(BaseModel):
     email = db.Column(db.String(120), unique=True, nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
     password = db.Column(db.String(120), nullable=False)
+
+    places = relationship("Place", backref="owner", lazy=True)
+
+    reviews = relationship("Review", backref="author", lazy=True)
 
     def __init__(self, first_name, last_name, email, is_admin=False, password=None):
         super().__init__()

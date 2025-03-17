@@ -1,6 +1,29 @@
 from app.models.base_model import BaseModel
+from app import bcrypt, db
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
+
+place_amenity = db.Table('place_amenity',
+    db.Column('place_id', db.String(36), db.ForeignKey('places.id'), primary_key=True),
+    db.Column('amenity_id', db.Integer, db.ForeignKey('amenities.id'), primary_key=True)
+)
 
 class Place(BaseModel):
+    __tablename__ = 'places'
+
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.String, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
+
+    user_id = db.Column(db.String(36), ForeignKey('users.id'), nullable=False)
+    owner = relationship("User", backref="places")
+
+    reviews = relationship("Review", backref="place", lazy=True)
+
+    amenities = relationship("Amenity", secondary=place_amenity, backref="places", lazy=True)
+
     def __init__(self, title, description, price, latitude, longitude, owner, reviews=[], amenities=[]):
         super().__init__()
         self.title = title

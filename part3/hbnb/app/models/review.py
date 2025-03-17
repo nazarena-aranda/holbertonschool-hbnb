@@ -1,6 +1,18 @@
 from app.models.base_model import BaseModel
+from app import bcrypt, db
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 
 class Review(BaseModel):
+    __tablename__ = 'reviews'
+
+    text = db.Column(db.String, nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
+
+    user_id = db.Column(db.String(36), ForeignKey('users.id'), nullable=False)
+
+    place_id = db.Column(db.String(36), ForeignKey('places.id'), nullable=False)
+
     def __init__(self, text, rating, place_id, user_id):
         super().__init__()
         self.text = text
