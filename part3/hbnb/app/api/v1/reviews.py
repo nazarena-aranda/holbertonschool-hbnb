@@ -71,7 +71,6 @@ class ReviewResource(Resource):
         facade.delete_review(review_id)
         return {'message': 'Review delete successfully'}, 200
 
-        
 
 @api.route('/places/<place_id>/reviews')
 class PlaceReviewList(Resource):
