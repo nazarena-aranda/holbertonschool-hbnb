@@ -1,7 +1,6 @@
 from app.models.base_model import BaseModel
 from app import bcrypt, db
 
-
 class Amenity(BaseModel):
     __tablename__ = 'amenities'
 

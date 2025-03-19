@@ -1,24 +1,30 @@
 from abc import ABC, abstractmethod
 from app import db
 
-class Repository:
+class Repository(ABC):
+    @abstractmethod
     def add(self, obj):
-        raise NotImplementedError
+        pass
 
+    @abstractmethod
     def get(self, obj_id):
-        raise NotImplementedError
+        pass
 
+    @abstractmethod
     def get_all(self):
-        raise NotImplementedError
+        pass
 
+    @abstractmethod
     def update(self, obj_id, data):
-        raise NotImplementedError
+        pass
 
+    @abstractmethod
     def delete(self, obj_id):
-        raise NotImplementedError
+        pass
 
+    @abstractmethod
     def get_by_attribute(self, attr_name, attr_value):
-        raise NotImplementedError
+        pass
 
 class SQLAlchemyRepository(Repository):
     def __init__(self, model):
@@ -60,14 +66,17 @@ class UserRepository(SQLAlchemyRepository):
 
 class PlaceRepository(SQLAlchemyRepository):
     def __init__(self):
+        from app.models.place import Place
         super().__init__(Place)
 
 
 class ReviewRepository(SQLAlchemyRepository):
     def __init__(self):
+        from app.models.review import Review
         super().__init__(Review)
 
 
 class AmenityRepository(SQLAlchemyRepository):
     def __init__(self):
+        from app.models.amenity import Amenity
         super().__init__(Amenity)
