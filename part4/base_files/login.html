@@ -10,17 +10,18 @@
 <body>
     <header>
         <div class="header-content">
-            <img src="images/logo.png" alt="Logo" class="logo">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="Logo" class="logo">
+            </div>
             <nav>
-                <a href="index.html">Home</a>
-                <a href="login.html" class="login-button">Login</a>
+                <a href="login.html">Login</a>
             </nav>
         </div>
     </header>
     <main>
         <div class="login-container">
             <h2>Login</h2>
-            <form class="login-form" action="#" method="POST">
+            <form id="login-form" class="login-form" action="#" method="POST">
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" required>
@@ -37,5 +38,6 @@
     <footer>
         <p>HBNB 2024 All rights reserved</p>
     </footer>
+    <script src="scripts.js"></script>
 </body>
 </html>

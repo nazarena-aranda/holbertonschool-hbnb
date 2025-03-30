@@ -4,11 +4,12 @@ from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from config import config
 from flask_jwt_extended import JWTManager
-from sqlalchemy import inspect
+from flask_cors import CORS
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 jwt = JWTManager()
+cors = CORS()
 
 def create_app(config_class="config.DevelopmentConfig"):
     app = Flask(__name__)
@@ -17,6 +18,7 @@ def create_app(config_class="config.DevelopmentConfig"):
     bcrypt.init_app(app)
     db.init_app(app)
     jwt.init_app(app)
+    cors.init_app(app, resources={r"/api/*": {"origins": "*"}})
 
     api = Api(app)
 
@@ -32,11 +34,7 @@ def create_app(config_class="config.DevelopmentConfig"):
     api.add_namespace(amenities_ns, path='/api/v1/amenities')
     api.add_namespace(review_ns, path='/api/v1/reviews')
 
-
     with app.app_context():
         db.create_all()
-
-        inspector = inspect(db.engine)
-        print("Tablas en la base de datos:", inspector.get_table_names())
 
     return app

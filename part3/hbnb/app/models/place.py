@@ -18,20 +18,18 @@ class Place(BaseModel):
     longitude = db.Column(db.Float, nullable=False)
 
     user_id = db.Column(db.String(36), ForeignKey('users.id'), nullable=False)
-    owner = relationship("User", backref="places")
 
     reviews = relationship("Review", backref="place", lazy=True)
 
     amenities = relationship("Amenity", secondary=place_amenity, backref="places", lazy=True)
 
-    def __init__(self, title, description, price, latitude, longitude, owner, reviews=[], amenities=[]):
+    def __init__(self, title, description, price, latitude, longitude, reviews=[], amenities=[]):
         super().__init__()
         self.title = title
         self.description = description
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.owner = owner
         self.reviews = reviews
         self.amenities = amenities
 
@@ -92,6 +90,7 @@ class Place(BaseModel):
         self.amenities.append(amenity)
 
     def validate(self):
+        errors = []
         if not self.title:
             errors.append("Title is required")
         if self.price <= 0:
