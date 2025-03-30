@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Places</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="images/icon.png">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="Logo" class="logo">
+            </div>
+            <nav>
+                <a href="login.html">Login</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <h1 class="main-title">Available Places</h1>
+        <div class="filter-container">
+            <label for="price-filter">Max Price:</label>
+            <select id="price-filter">
+                <option value="all">All</option>
+                <option value="100">$100</option>
+                <option value="200">$200</option>
+                <option value="300">$300</option>
+            </select>
+        </div>
+        <section id="places-list">
+            <div class="place-card">
+                <h2>Beautiful Beach House</h2>
+                <p class="price">Price per night: $150</p>
+                <button class="view-details">View Details</button>
+            </div>
+            <div class="place-card">
+                <h2>Cozy Cabin</h2>
+                <p class="price">Price per night: $100</p>
+                <button class="view-details">View Details</button>
+            </div>
+            <div class="place-card">
+                <h2>Modern Apartment</h2>
+                <p class="price">Price per night: $200</p>
+                <button class="view-details">View Details</button>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>HBNB 2024 All rights reserved</p>
+    </footer>
+</body>
+</html>
