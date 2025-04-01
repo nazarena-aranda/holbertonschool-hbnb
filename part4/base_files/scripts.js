@@ -1,4 +1,3 @@
-
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -68,9 +67,11 @@ function filterPlaces(maxPrice) {
     const places = document.querySelectorAll('.place-card');
     
     places.forEach(place => {
-        const price = parseInt(place.dataset.price);
-        if (maxPrice === 'all' || price <= maxPrice) {
-            place.style.display = 'block';
+        const priceText = place.querySelector('.price').textContent;
+        const price = parseInt(priceText.match(/\$(\d+)/)[1]);
+        
+        if (maxPrice === 'all' || parseInt(maxPrice) >= price) {
+            place.style.display = '';
         } else {
             place.style.display = 'none';
         }

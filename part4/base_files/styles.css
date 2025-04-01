@@ -18,8 +18,9 @@ body {
 }
 
 header {
-    background-color: #4CB1E5;
+    background-color: #00A699;
     padding: 1rem 2rem;
+    width: 100%;
 }
 
 .header-content {
@@ -36,14 +37,37 @@ header {
 }
 
 .logo {
-    height: 40px;
+    height: 35px;
     width: auto;
+}
+
+.logo-text {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 nav a {
     color: white;
     text-decoration: none;
     font-weight: 500;
+    transition: opacity 0.3s ease;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
+
+nav a.login-button {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: opacity 0.3s ease;
+}
+
+nav a.login-button:hover {
+    opacity: 0.8;
 }
 
 main {
