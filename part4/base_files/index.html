@@ -14,7 +14,7 @@
                 <img src="images/logo.png" alt="Logo" class="logo">
             </div>
             <nav>
-                <a href="login.html">Login</a>
+                <a href="login.html" id="login-link">Login</a>
             </nav>
         </div>
     </header>
@@ -24,9 +24,9 @@
             <label for="price-filter">Max Price:</label>
             <select id="price-filter">
                 <option value="all">All</option>
+                <option value="10">$10</option>
+                <option value="50">$50</option>
                 <option value="100">$100</option>
-                <option value="200">$200</option>
-                <option value="300">$300</option>
             </select>
         </div>
         <section id="places-list">
@@ -50,5 +50,6 @@
     <footer>
         <p>HBNB 2024 All rights reserved</p>
     </footer>
+    <script src="scripts.js"></script>
 </body>
 </html>
