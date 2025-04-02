@@ -3,78 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Place Details - HBNB</title>
+    <title>Place Details</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="images/icon.png">
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <img src="images/logo.png" alt="Logo" class="logo">
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="login.html" class="login-button">Login</a>
-            </nav>
-        </div>
-    </header>
     <main>
-        <div class="place-details">
-            <div class="place-header">
-                <h1>Luxury Villa</h1>
-                <p class="price">$200/night</p>
-            </div>
-            <div class="place-images">
-                <img src="images/place1.jpg" alt="Main view" class="main-image">
-                <div class="image-gallery">
-                    <img src="images/place1-1.jpg" alt="Interior 1">
-                    <img src="images/place1-2.jpg" alt="Interior 2">
-                    <img src="images/place1-3.jpg" alt="Interior 3">
-                </div>
-            </div>
-            <div class="place-info">
-                <div class="host-info">
-                    <h3>Hosted by John Doe</h3>
-                    <p>Member since 2020</p>
-                </div>
-                <div class="description">
-                    <h3>About this place</h3>
-                    <p>Beautiful luxury villa with stunning ocean views. This spacious property features modern amenities, a private pool, and comfortable living spaces perfect for families or groups.</p>
-                </div>
-                <div class="amenities">
-                    <h3>Amenities</h3>
-                    <ul>
-                        <li>Private Pool</li>
-                        <li>WiFi</li>
-                        <li>Kitchen</li>
-                        <li>Air Conditioning</li>
-                        <li>Parking</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="reviews-section">
-                <h3>Reviews</h3>
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="reviewer-name">Alice Smith</span>
-                        <span class="review-date">March 2024</span>
-                    </div>
-                    <div class="review-rating">★★★★★</div>
-                    <p class="review-text">Amazing stay! The villa exceeded our expectations. The views are breathtaking and the amenities are top-notch.</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="reviewer-name">Bob Johnson</span>
-                        <span class="review-date">February 2024</span>
-                    </div>
-                    <div class="review-rating">★★★★☆</div>
-                    <p class="review-text">Great location and comfortable stay. The pool area is perfect for relaxation.</p>
-                </div>
-                <a href="add_review.html" class="add-review-button">Add a Review</a>
-            </div>
-        </div>
+        <section id="place-details">
+            <!-- Place details will be populated dynamically -->
+        </section>
+        <section id="reviews">
+            <!-- Reviews will be populated dynamically -->
+        </section>
+        <section id="add-review">
+            <h2>Add a Review</h2>
+            <form id="review-form">
+                <label for="review-text">Review:</label>
+                <textarea id="review-text" name="review-text" required></textarea>
+                
+                <button type="submit">Submit</button>
+            </form>
+        </section>
     </main>
-    <footer>
-        <p>HBNB 2024 All rights reserved</p>
-    </footer>
+    <script src="scripts.js"></script>
 </body>
 </html>
