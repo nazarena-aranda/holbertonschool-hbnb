@@ -20,9 +20,12 @@ def create_app(config_class="config.DevelopmentConfig"):
     jwt.init_app(app)
     cors.init_app(app, resources={
         r"/api/*": {
-            "origins": ["http://localhost:8000"],
+            "origins": ["http://localhost:8000", "http://127.0.0.1:8000"],
             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-            "allow_headers": ["Content-Type", "Authorization"]
+            "allow_headers": ["Content-Type", "Authorization", "Accept"],
+            "supports_credentials": True,
+            "expose_headers": ["Content-Type", "Authorization"],
+            "max_age": 3600
         }
     })
 

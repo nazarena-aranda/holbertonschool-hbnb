@@ -15,7 +15,7 @@ place_model = api.model('Place', {
     'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
 })
 
-@api.route('/')
+@api.route('')
 class PlaceList(Resource):
     @api.expect(place_model)
     @api.response(201, 'Place successfully created')
@@ -64,8 +64,14 @@ class PlaceList(Resource):
     def get(self):
         """Retrieve a list of all places"""
         places = facade.get_all_places()
-        return [{'id': place.id, 'title': place.title, 'latitude': place.latitude,
-                'longitude': place.longitude} for place in places], 200
+        return [{
+            'id': place.id,
+            'title': place.title,
+            'description': place.description,
+            'price': place.price,
+            'latitude': place.latitude,
+            'longitude': place.longitude
+        } for place in places], 200
 
 @api.route('/<place_id>')
 class PlaceResource(Resource):
@@ -80,6 +86,7 @@ class PlaceResource(Resource):
             'id': place.id,
             'title': place.title,
             'description': place.description,
+            'price': place.price,
             'latitude': place.latitude,
             'longitude': place.longitude,
             'owner': {
@@ -94,6 +101,19 @@ class PlaceResource(Resource):
                     'name': amenity.name
                 } 
                 for amenity in place.amenities
+            ],
+            'reviews': [
+                {
+                    'id': review.id,
+                    'text': review.text,
+                    'rating': review.rating,
+                    'author': {
+                        'id': review.author.id,
+                        'first_name': review.author.first_name,
+                        'last_name': review.author.last_name
+                    }
+                }
+                for review in place.reviews
             ]
         }, 200
 

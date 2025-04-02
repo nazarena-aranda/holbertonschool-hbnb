@@ -33,11 +33,10 @@ class HBnBFacade:
             raise ValueError("Owner not found")
 
         amenities = []
-        for amenity_id in place_data['amenities']:
+        for amenity_id in place_data.get('amenities', []):
             amenity = self.get_amenity(amenity_id)
             if not amenity:
                 raise ValueError(f"Amenity {amenity_id} not found")
-
             amenities.append(amenity)
 
         place = Place(
@@ -46,7 +45,7 @@ class HBnBFacade:
             price=place_data['price'],
             latitude=place_data['latitude'],
             longitude=place_data['longitude'],
-            owner=owner,
+            owner_id=place_data['owner_id'],
             amenities=amenities)
         self.place_repository.add(place)
         return place
