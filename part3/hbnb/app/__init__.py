@@ -29,6 +29,10 @@ def create_app(config_class="config.DevelopmentConfig"):
         }
     })
 
+    @jwt.user_identity_loader
+    def user_identity_lookup(user):
+        return str(user)
+
     api = Api(app)
 
     from app.api.v1.auth import api as auth_ns

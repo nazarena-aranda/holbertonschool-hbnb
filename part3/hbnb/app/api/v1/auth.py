@@ -44,15 +44,11 @@ class Signup(Resource):
                 "last_name": user.last_name,
                 "email": user.email,
                 "is_admin": False,
-                "password": user.password
+                "password": user_data.get('password')
             })
 
             access_token = create_access_token(identity={'id': str(created_user.id), 'is_admin': created_user.is_admin})
-            
-            return {
-                'message': 'User created successfully',
-                'access_token': access_token
-            }, 201
+            return {'message': 'User created successfully', 'access_token': access_token}, 201
         except Exception as e:
             return {'error': str(e)}, 500
 
@@ -64,9 +60,12 @@ class Login(Resource):
         credentials = api.payload
         user = facade.get_user_by_email(credentials['email'])
         
-        if not user or not user.verify_password(credentials['password']):
+        if not user:
             return {'error': 'Invalid credentials'}, 401
-
+            
+        if not user.verify_password(credentials['password']):
+            return {'error': 'Invalid credentials'}, 401
+            
         access_token = create_access_token(identity={'id': str(user.id), 'is_admin': user.is_admin})
         return {'access_token': access_token}, 200
 
@@ -76,4 +75,7 @@ class ProtectedResource(Resource):
     def get(self):
         """A protected endpoint that requires a valid JWT token"""
         current_user = get_jwt_identity()
-        return {'message': f'Hello, user {current_user["id"]}'}, 200
+        if isinstance(current_user, dict):
+            user_id = current_user.get('id', 'unknown')
+            return {'message': f'Hello, user {user_id}'}, 200
+        return {'message': 'Hello, user'}, 200
