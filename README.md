@@ -143,6 +143,9 @@ A full-stack web application that replicates Airbnb functionalities, built with 
 }
 ```
 
+## Technical Documentation of the project:
+https://docs.google.com/document/d/1XmEArb75nL2b73Zwn-jP_XrlNaX99pQgfMupUj2m_Yc/edit?tab=t.0#heading=h.r5at5axqla1d
+
 ## 👥 Authors
 
 - [Ignacio Devita](https://github.com/nyacho04)
