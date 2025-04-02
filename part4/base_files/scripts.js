@@ -238,39 +238,90 @@ function showError(message) {
 }
 
 function displayPlaceDetails(place) {
-    const placeDetails = document.getElementById('place-details');
-    if (!placeDetails) return;
+    document.querySelector('.place-title').textContent = place.title;
+    
+    // Actualizar información del lugar
+    document.getElementById('host-name').textContent = place.host_name || 'John Doe';
+    document.getElementById('price').textContent = `$${place.price}`;
+    document.getElementById('description').textContent = place.description || 'No description available';
+    
+    // Manejar las amenidades correctamente
+    let amenitiesText = '';
+    if (place.amenities && Array.isArray(place.amenities)) {
+        amenitiesText = place.amenities.map(amenity => {
+            // Si amenity es un objeto con propiedad name, usar esa propiedad
+            if (typeof amenity === 'object' && amenity.name) {
+                return amenity.name;
+            }
+            // Si amenity es un string, usarlo directamente
+            return amenity;
+        }).join(', ');
+    }
+    document.getElementById('amenities').textContent = amenitiesText || 'No amenities listed';
 
-    placeDetails.innerHTML = `
-        <div class="place-details">
-            <h2>${place.title}</h2>
-            <p class="description">${place.description || 'No description available'}</p>
-            <div class="info">
-                <p><strong>Price:</strong> $${place.price}</p>
-                <p><strong>Location:</strong> ${place.latitude}, ${place.longitude}</p>
-            </div>
-            <div class="amenities">
-                <h3>Amenities</h3>
-                <ul>
-                    ${place.amenities ? place.amenities.map(amenity => `<li>${amenity.name}</li>`).join('') : '<li>No amenities available</li>'}
-                </ul>
-            </div>
-            <div class="reviews">
-                <h3>Reviews</h3>
-                <ul>
-                    ${place.reviews && place.reviews.length > 0 
-                        ? place.reviews.map(review => `
-                            <li>
-                                <p>${review.text}</p>
-                                <p>Rating: ${review.rating}/5</p>
-                                <p>By: ${review.author ? `${review.author.first_name} ${review.author.last_name}` : 'Anonymous'}</p>
-                            </li>
-                        `).join('')
-                        : '<li>No reviews yet</li>'
-                    }
-                </ul>
-            </div>
-            <button onclick="window.location.href='add_review.html?place_id=${place.id}'">Add Review</button>
-        </div>
-    `;
+    // Mostrar reseñas si existen
+    const reviewsContainer = document.getElementById('reviews-container');
+    reviewsContainer.innerHTML = ''; // Limpiar reseñas existentes
+
+    if (place.reviews && place.reviews.length > 0) {
+        place.reviews.forEach(review => {
+            const reviewCard = document.createElement('div');
+            reviewCard.className = 'review-card';
+            
+            const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+            
+            reviewCard.innerHTML = `
+                <h3>${review.user_name}:</h3>
+                <p>${review.text}</p>
+                <p class="rating">Rating: ${stars}</p>
+            `;
+            
+            reviewsContainer.appendChild(reviewCard);
+        });
+    } else {
+        reviewsContainer.innerHTML = '<p>No reviews yet.</p>';
+    }
+
+    // Mostrar/ocultar formulario de reseña según autenticación
+    const token = getCookie('token');
+    const addReviewSection = document.getElementById('add-review');
+    if (token) {
+        addReviewSection.style.display = 'block';
+    } else {
+        addReviewSection.style.display = 'none';
+    }
+
+    // Agregar event listener para el formulario de reseña
+    const reviewForm = document.getElementById('review-form');
+    if (reviewForm) {
+        reviewForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const reviewText = document.getElementById('review-text').value;
+            
+            try {
+                const response = await fetch(`http://localhost:5000/api/v1/places/${place.id}/reviews`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        text: reviewText
+                    })
+                });
+
+                if (response.ok) {
+                    // Recargar los detalles del lugar para mostrar la nueva reseña
+                    await fetchPlaceDetails(place.id);
+                    reviewForm.reset();
+                } else {
+                    const error = await response.json();
+                    alert('Error submitting review: ' + (error.message || 'Please try again'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error submitting review. Please try again.');
+            }
+        };
+    }
 }
