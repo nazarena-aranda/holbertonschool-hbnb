@@ -1,70 +1,149 @@
-#  HBnB - Proyect
+# HBnB - Airbnb Clone
 
-##  Description of the project
+A full-stack web application that replicates Airbnb functionalities, built with Flask.
 
-This project is an implementation of HBnB, a web application that emulates a very simple version of Airbnb. we focused on building a RESTful API with Flask, allowing users to:
+## 🌟 Features
 
-**Create and update users**  
-**Publish and update places**  
-**Leave reviews for places**  
-**Associate services with places**  
+- **User Authentication & Authorization**
+  - JWT-based authentication
+  - Secure password hashing
+  - Protected routes
+  - User roles (admin/regular)
 
+- **Property Management**
+  - Create and list properties
+  - Detailed property information
+  - Location with coordinates
+  - Price management
+  - Property reviews and ratings
 
----
+- **Review System**
+  - Star ratings
+  - Text reviews
+  - User verification for reviews
 
-## Data Model
+- **Amenities**
+  - Multiple amenities per property
+  - Customizable amenity list
+  - Search by amenities
 
-### 📌 **Class `User`**
-**Attributes:**
-- `id`: Unique identifier (UUID).
-- `first_name`: User's first name.
-- `last_name`: User's last name.
-- `email`: Email address.
+## 🛠️ Technologies Used
 
-### 📌 **Class `Place`**
-**Attributes:**
-- `id`: Unique identifier (UUID).
-- `title`: Name of the place.
-- `description`: Description.
-- `price`: Price.
-- `latitude`: Latitude of the place.
-- `longitude`: Longitude of the place.
-- `owner_id`: ID of the user who owns the place.
+- **Backend**
+  - Flask (framework)
+  - SQLAlchemy
+  - Flask-RESTx (API documentation)
+  - CORS
 
-**Relationships:**
-- A **user** can own multiple **places**).
-- A **place** can have multiple **reviews**).
-- A **place** can have multiple **amenities**).
+- **Frontend**
+  - HTML
+  - CSS
+  - JavaScript (Vanilla)
 
-### 📌 **Class `Review`**
-**Attributes:**
-- `id`: Unique identifier (UUID).
-- `text`: Content of the review.
-- `rating`: Place rating (1 to 5).
-- `place_id`: Place the review belongs to.
-- `user_id`: User who wrote the review.
+- **Database**
+  - SQLite
 
-### 📌 **Class `Amenity`**
-**Attributes:**
-- `id`: Unique identifier (UUID).
-- `name`: Name of the service (e.g., "WiFi", "Pool").
+## 📝 API Endpoints
 
----
+### Authentication
+- `POST /api/v1/auth/signup` - Register new user
+- `POST /api/v1/auth/login` - User login
+- `GET /api/v1/auth/protected` - Protected route example
 
-## 🚀 Instalation and execution
+### Users
+- `GET /api/v1/users` - List all users
+- `POST /api/v1/users` - Create user
+- `GET /api/v1/users/<id>` - Get user details
+- `PUT /api/v1/users/<id>` - Update user
+- `DELETE /api/v1/users/<id>` - Delete user
 
-### 1️⃣ Install dependencies
-```bash
-pip install -r requirements.txt
+### Places
+- `GET /api/v1/places` - List all places
+- `POST /api/v1/places` - Create place
+- `GET /api/v1/places/<id>` - Get place details
+- `PUT /api/v1/places/<id>` - Update place
+- `DELETE /api/v1/places/<id>` - Delete place
+
+### Reviews
+- `GET /api/v1/reviews` - List all reviews
+- `POST /api/v1/reviews` - Create review
+- `GET /api/v1/reviews/<id>` - Get review details
+
+### rerequisites
+- Python 3+
+- pip
+
+### Installation
+
+1. **Set up Python virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   ```
+
+2. **Install dependencies**
+   ```bash
+   cd part3/hbnb
+   pip install -r requirements.txt
+   ```
+
+3. **Start the Flask server**
+   ```bash
+   python -m flask run
+   ```
+
+4. **Start the frontend server**
+   ```bash
+   cd ../../part4/base_files
+   python -m http.server 8000
+   ```
+
+5. **Access the application**
+   - Open your browser and navigate to `http://localhost:8000`
+   - API documentation available at `http://localhost:5000`
+
+### Test User Credentials
+- Email: `test@example.com`
+- Password: `password123`
+
+## 📝 Data Models
+
+### User
+```python
+{
+    "id": "uuid",
+    "first_name": "string",
+    "last_name": "string",
+    "email": "string",
+    "is_admin": "boolean"
+}
 ```
 
-### 2️⃣ Execute the aplication
-```bash
-python run.py
+### Place
+```python
+{
+    "id": "uuid",
+    "title": "string",
+    "description": "string",
+    "price": "float",
+    "latitude": "float",
+    "longitude": "float",
+    "user_id": "uuid"
+}
 ```
 
-This will launch the Flask server and the API will allow interaction.
+### Review
+```python
+{
+    "id": "uuid",
+    "text": "string",
+    "rating": "integer(1-5)",
+    "place_id": "uuid",
+    "user_id": "uuid"
+}
+```
 
-## 📌 **Autores**
-[Ignacio Devita](https://github.com/nyacho04)
-[Nazarena Aranda](https://github.com/nazarena-aranda)
+## 👥 Authors
+
+- [Ignacio Devita](https://github.com/nyacho04)
+- [Nazarena Aranda](https://github.com/nazarena-aranda)
