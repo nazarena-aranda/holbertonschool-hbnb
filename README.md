@@ -89,17 +89,18 @@ A full-stack web application that replicates Airbnb functionalities, built with 
 
 3. **Start the Flask server**
    ```bash
-   python -m flask run
+   cd part3/hbnb
+   python3 run.py
    ```
 
 4. **Start the frontend server**
    ```bash
-   cd ../../part4/base_files
-   python -m http.server 8000
+   cd part4/base_files
+   python3 server.py
    ```
 
 5. **Access the application**
-   - Open your browser and navigate to `http://localhost:8000`
+   - Open your browser and navigate to `localhost:8000`
    - API documentation available at `http://localhost:5000`
 
 ### Test User Credentials
