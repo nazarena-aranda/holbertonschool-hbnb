@@ -13,6 +13,7 @@ class HBnBFacade:
         self.amenity_repository = SQLAlchemyRepository(Amenity)
 
     def create_user(self, user_data):
+<<<<<<< Updated upstream
         user = User(
             first_name=user_data['first_name'],
             last_name=user_data['last_name'],
@@ -21,6 +22,9 @@ class HBnBFacade:
             password=user_data['password']
         )
         user.hash_password(user_data['password'])
+=======
+        user = User(**user_data)
+>>>>>>> Stashed changes
         self.user_repository.add(user)
         return user
 

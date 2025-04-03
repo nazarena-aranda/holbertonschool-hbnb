@@ -44,7 +44,11 @@ class Signup(Resource):
                 "last_name": user.last_name,
                 "email": user.email,
                 "is_admin": False,
+<<<<<<< Updated upstream
                 "password": user_data.get('password')
+=======
+                "password": user_data.get('password') # To prevent hashing twice
+>>>>>>> Stashed changes
             })
 
             access_token = create_access_token(identity={'id': str(created_user.id), 'is_admin': created_user.is_admin})
