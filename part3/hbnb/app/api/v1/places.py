@@ -1,6 +1,7 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required
 from app.services import facade
+from app.utils import get_current_user
 
 api = Namespace('places', description='Place operations')
 
@@ -11,7 +12,7 @@ place_model = api.model('Place', {
     'price': fields.Float(required=True, description='Price per night'),
     'latitude': fields.Float(required=True, description='Latitude of the place'),
     'longitude': fields.Float(required=True, description='Longitude of the place'),
-    'owner_id': fields.String(required=True, description='ID of the owner'),
+    #'owner_id': fields.String(required=True, description='ID of the owner'),
     'amenities': fields.List(fields.String, required=True, description="List of amenities ID's")
 })
 
@@ -23,9 +24,10 @@ class PlaceList(Resource):
     @jwt_required()
     def post(self):
         """Register a new place"""
-        current_user = get_jwt_identity()
+        current_user = get_current_user()
         place_data = api.payload
-        place_data['owner_id'] = current_user
+        place_data['owner_id'] = current_user.get('id')
+
         try:
             new_place = facade.create_place(place_data)
             return {
@@ -124,7 +126,7 @@ class PlaceResource(Resource):
     @jwt_required()
     def put(self, place_id):
         """Update a place's information"""
-        current_user = get_jwt_identity()
+        current_user = get_current_user()
         is_admin = current_user.get('is_admin', False)
         user_id = current_user.get('id')
 

@@ -7,8 +7,18 @@ from app.api.v1.amenities import api as amenities_ns
 from app.api.v1.reviews import api as reviews_ns
 from app.api.v1.auth import api as auth_ns
 
+
+authorizations = {
+    'Bearer': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'Authorization',
+        'description': 'Agregá "Bearer <tu_token>"'
+    }
+}
+
 blueprint = Blueprint('api', __name__, url_prefix='/api/v1')
-api = Api(blueprint, doc='/doc/')
+api = Api(blueprint, title='Mi API', doc='/doc/', authorizations=authorizations, security='Bearer')
 
 api.add_namespace(users_ns)
 api.add_namespace(places_ns)

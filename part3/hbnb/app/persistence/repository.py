@@ -63,6 +63,9 @@ class UserRepository(SQLAlchemyRepository):
 
     def get_user_by_email(self, email):
         return self.model.query.filter_by(email=email).first()
+    
+    def get_user_by_id(self, user_id):
+        return self.model.query.filter_by(id=user_id).first()
 
 class PlaceRepository(SQLAlchemyRepository):
     def __init__(self):

@@ -28,8 +28,17 @@ def create_app(config_class="config.DevelopmentConfig"):
             "max_age": 3600
         }
     })
+    
+    authorizations = {
+        'Bearer': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization',
+            'description': 'Add  "Bearer <tu_token>"'
+        }
+    }
 
-    api = Api(app)
+    api = Api(app, authorizations=authorizations, security='Bearer')
 
     from app.api.v1.auth import api as auth_ns
     from app.api.v1.users import api as users_ns

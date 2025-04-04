@@ -1,6 +1,7 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required
 from app.services import facade
+from app.utils import get_current_user
 
 api = Namespace('amenities', description='Amenity operations')
 
@@ -17,7 +18,7 @@ class AmenityList(Resource):
     @jwt_required()
     def post(self):
         """Register a new amenity"""
-        current_user = get_jwt_identity()
+        current_user = get_current_user()
         if not current_user.get('is_admin'):
             return {'error': 'Admin privileges required'}, 403
 
@@ -57,7 +58,7 @@ class AmenityResource(Resource):
     @jwt_required()
     def put(self, amenity_id):
         """Update an amenity's information"""
-        current_user = get_jwt_identity()
+        current_user = get_current_user()
         if not current_user.get('is_admin'):
             return {'error': 'Admin privileges required'}, 403
 
@@ -72,7 +73,7 @@ class AmenityResource(Resource):
 class AdminAmenityCreate(Resource):
     @jwt_required()
     def post(self):
-        current_user = get_jwt_identity()
+        current_user = get_current_user()
         if not current_user.get('is_admin'):
             return {'error': 'Admin privileges required'}, 403
 
@@ -91,7 +92,7 @@ class AdminAmenityCreate(Resource):
 class AdminAmenityModify(Resource):
     @jwt_required()
     def put(self, amenity_id):
-        current_user = get_jwt_identity()
+        current_user = get_current_user()
         if not current_user.get('is_admin'):
             return {'error': 'Admin privileges required'}, 403
 
