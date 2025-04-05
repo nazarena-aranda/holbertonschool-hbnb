@@ -1,13 +1,13 @@
 from flask_restx import Namespace, Resource, fields
 from app.services import facade
-
+from app.utils import get_current_user
+from flask_jwt_extended import jwt_required
 api = Namespace('reviews', description='Review operations')
 
 # Define the review model for input validation and documentation
 review_model = api.model('Review', {
     'text': fields.String(required=True, description='Text of the review'),
     'rating': fields.Integer(required=True, description='Rating of the place (1-5)'),
-    'user_id': fields.String(required=True, description='ID of the user'),
     'place_id': fields.String(required=True, description='ID of the place')
 })
 
@@ -16,16 +16,18 @@ class ReviewList(Resource):
     @api.expect(review_model)
     @api.response(201, 'Review successfully created')
     @api.response(400, 'Invalid input data')
+    @jwt_required()
     def post(self):
         """Register a new review"""
+        current_user = get_current_user()
         review_data = api.payload
+        review_data['user_id'] = current_user.get('id')
         try:
             new_review = facade.create_review(review_data)
             return {
                 'id': new_review.id,
                 'text': new_review.text,
                 'rating': new_review.rating,
-                'user_id': new_review.user_id,
                 'place_id': new_review.place_id
             }, 201
         except ValueError as e:

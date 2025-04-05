@@ -1,7 +1,8 @@
 from flask_restx import Namespace, Resource, fields
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import jwt_required, get_jwt
 from app.models.user import User
 from app.services import facade
+from app.utils import get_current_user
 
 api = Namespace('users', description='User operations')
 
@@ -21,35 +22,25 @@ class UserList(Resource):
     @jwt_required()
     def post(self):
         """Create a new user with validation"""
-        current_user = get_jwt_identity()
+        current_user = get_current_user()
+
         if not current_user.get('is_admin'):
             return {'error': 'Admin privileges required'}, 403
 
         user_data = api.payload
 
-        user = User(
-            first_name=user_data.get('first_name'),
-            last_name=user_data.get('last_name'),
-            email=user_data.get('email'),
-            password=user_data.get('password')
-        )
-
-        if errors := user.validate():
-            return {'error': ', '.join(errors)}, 400
-
-        if facade.get_user_by_email(user.email):
-            return {'error': 'Email already registered'}, 409
-
         try:
             created_user = facade.create_user({
-                "first_name": user.first_name,
-                "last_name": user.last_name,
-                "email": user.email,
-                "is_admin": user.is_admin,
-                "password": user.password
+                "first_name": user_data.get('first_name'),
+                "last_name": user_data.get('last_name'),
+                "email": user_data.get('email'),
+                "password": user_data.get('password'),
+                "is_admin": False,
             })
 
             return api.marshal(created_user, user_model), 201
+        except ValueError as e:
+            return {'error': str(e)}, 400
         except Exception as e:
             return {'error': str(e)}, 500
 
@@ -63,7 +54,7 @@ class UserResource(Resource):
     @jwt_required()
     def put(self, user_id):
         """Update a user's details"""
-        current_user = get_jwt_identity()
+        current_user = get_current_user()
         if not current_user.get('is_admin'):
             return {'error': 'Admin privileges required'}, 403
 

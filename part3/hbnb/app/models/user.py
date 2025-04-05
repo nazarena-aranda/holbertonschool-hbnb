@@ -23,9 +23,7 @@ class User(BaseModel):
         self.last_name = last_name
         self.email = email
         self.is_admin = is_admin
-
-        if password:
-            self.hash_password(password)
+        self.password = self.hash_password(password)
 
     def validate(self):
         errors = []
@@ -43,7 +41,11 @@ class User(BaseModel):
     
     def hash_password(self, password):
         """Hashes the password before storing it."""
-        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+        try:
+            return bcrypt.generate_password_hash(password).decode('utf-8')
+        except Exception as e:
+            print(f"Error hashing password: {e}")
+            raise
 
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""

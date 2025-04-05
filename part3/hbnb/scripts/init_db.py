@@ -18,7 +18,7 @@ def init_db():
                 "last_name": "User",
                 "email": "test@example.com",
                 "password": "password123",
-                "is_admin": False
+                "is_admin": 1,
             })
 
 if __name__ == '__main__':
